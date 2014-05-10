@@ -9,6 +9,7 @@ digraph finite_state_machine {
         <xsl:if test="//s:final">node [shape = doublecircle]; [<xsl:apply-templates select="//s:final"/>]</xsl:if>
         node [shape = circle];
         <xsl:apply-templates select="//s:state/s:transition"/>
+        <xsl:apply-templates select="//s:paralel/s:transition"/>
 }        
     </xsl:template>
     <xsl:template match="s:final">
