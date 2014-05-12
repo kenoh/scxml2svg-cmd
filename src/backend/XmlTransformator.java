@@ -10,21 +10,32 @@ import javax.xml.transform.stream.StreamSource;
 
 /**
  * Class, that can apply an XSLT transform to Xml files.
- * 
+ *
  * @author Marek Zuzi
  */
 public class XmlTransformator {
-    public void transform(File sourceFile, File templateFile, File destFile) 
+
+    /**
+     * Transforms given Xml file using given XSLT template, saving its result to
+     * destination file.
+     *
+     * @param sourceFile file to be transformed
+     * @param templateFile template of XSLT transform
+     * @param destFile file to save the result of the transform
+     * @throws TransformerConfigurationException
+     * @throws TransformerException
+     */
+    public void transform(File sourceFile, File templateFile, File destFile)
             throws TransformerConfigurationException, TransformerException {
-        
+
         TransformerFactory tFactory = TransformerFactory.newInstance();
-        
+
         StreamSource template = new StreamSource(templateFile);
         Transformer xTransformer = tFactory.newTransformer(template);
-        
+
         StreamSource source = new StreamSource(sourceFile);
         StreamResult destination = new StreamResult(destFile);
-        
+
         xTransformer.transform(source, destination);
     }
 }
