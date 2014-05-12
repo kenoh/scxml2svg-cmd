@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml"
+       xmlns:xi="http://www.w3.org/2001/XInclude"
+       version="1.0"
+       initial="Main"
+       datamodel="ecmascript">
+    <initial>
+      <transition target="1" event="a"/>
+    </initial>
+
+    <state id="1">
+	  <transition target="3" event="a,b"/>
+	  <transition target="2" event="c"/>
+
+    </state>
+
+    <state id="2">
+      <transition target="1"/>
+      <transition target="3"/>
+    </state>
+
+    <state id="3">
+      <transition target="3" event="a,c"/>
+      <transition target="4"/>
+    </state>
+    
+    <state id="4">
+      <transition target="2"/>
+      <transition target="Done"/>
+    </state>
+       
+    <final id="Done"/>
+</scxml>

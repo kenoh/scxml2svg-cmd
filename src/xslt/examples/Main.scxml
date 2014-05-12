@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml"
+       xmlns:xi="http://www.w3.org/2001/XInclude"
+       version="1.0"
+       initial="Main"
+       datamodel="ecmascript">
+  <state id="Main">
+    <initial>
+      <transition target="Test1"/>
+    </initial>
+
+    <state id="Test1">
+      <initial>
+        <transition target="Test1Sub1"/>
+      </initial>
+      <onentry> 
+        <log expr="'Inside Test1'"/>
+      </onentry>
+
+      <state id="Test1Sub1">
+        <onentry>
+          <log expr="'Inside Test1Sub1.'"/>
+        </onentry>
+        <onexit>
+          <log expr="'Leaving Test1Sub1'"/>
+        </onexit>
+        <transition event="Event1" target="Test1Sub2"/>
+      </state>
+
+      <final id="Test1Sub2"/>
+
+      <transition event="Test1.done" target="Test2"/>
+
+      <onexit>
+        <log expr="'Leaving Test1...'"/>
+      </onexit>
+    </state>
+
+    <state id="Test2" xmlns:xi="http://www.w3.org/2001/XInclude">
+      <initial>
+        <transition target="Test2Sub1"/>
+      </initial>
+
+       <xi:include href="SCXMLExamples/Test2Sub1.xml" parse="text"/>
+  
+      <final id="Test2Sub2"/>
+
+      <transition event="done.state.Test2" next="Test3"/>
+    </state>
+
+    <state id="Test3">
+      <initial>
+        <transition target="Test3Sub1"/>
+      </initial>
+
+      <state id="Test3Sub1">
+        <onentry>
+          <log expr="'Inside Test3Sub1...'"/>
+          <send event="Timer"  delay="5s"/>
+        </onentry>
+        <transition event="Timer" target="Test4"/>
+        <onexit>
+          <log expr="'Leaving Test3Sub1...'"/>
+        </onexit>
+      </state>
+
+      <onexit>
+        <log expr="'Leaving Test3...'"/>
+      </onexit>
+    </state>
+    
+    <state id="Test4">
+      <onentry>
+        <log expr="'Inside Test4...'"/>
+      </onentry>
+      <initial>
+        <transition target="Test4Sub1"/>
+      </initial>
+
+      <state id="Test4Sub1">
+        <onexit>
+          <log expr="'Leaving Test4Sub1...'"/>
+        </onexit>
+        <transition target="Test5"/>
+      </state>
+    </state>
+       
+    <state id="Test5">
+      <onentry>
+        <log expr="'Inside Test5...'"/>
+      </onentry>
+      <initial>
+        <transition target="Test5P"/>
+      </initial>
+
+      <parallel id="Test5P">
+        <state id="Test5PSub1" initial="Test5PSub1Final">
+           <final id="Test5PSub1Final"/>
+           </state>
+        <state id="Test5PSub2" initial="Test5PSub2Final">
+            <final id="Test5PSub2Final"/>
+            </state>
+        <onexit>
+          <log expr="'all parallel states done'"/>
+        </onexit>
+      </parallel>
+
+      <transition event="done.state.Test5P" target="Test6"/>
+    </state>
+
+    <state id="Test6"
+           xmlns:ccxml="http://www.w3.org/2002/09/ccxml"
+           xmlns:v3="http://www.w3.org/2005/07/vxml3">
+      <datamodel>
+        <data id="ccxmlid" expr="32459"/>
+        <data id="v3id" expr="17620"/>
+        <data id="dest" expr="'tel:+18315552020'"/>
+        <data id="src" expr="'helloworld2.vxml'"/>
+        <data id="id" expr="'HelloWorld'"/>
+      </datamodel>
+
+      <onentry>
+        <send target="ccxmlid" type="http://www.w3.org/TR/scxml/#BasicHTTPEventProcessor" event="ccxml:createcall" namelist="dest"/>
+      </onentry>
+
+      <transition event="ccxml:connection.connected">      
+        <v3:form id="HelloWorld">
+          <v3:block><v3:prompt>Hello World!</v3:prompt></v3:block>          
+        </v3:form>
+      </transition>
+
+      <transition event="v3:HelloWorld.done">
+        <send target="v3id" type="http://www.w3.org/TR/scxml/#BasicEventProcessor" event="v3:formstart" namelist="src id"/>
+      </transition>
+
+      <transition event="v3:HelloWorld2.done">
+        <ccxml:disconnect connectionid="_event.data.connectionid"/>      
+      </transition>
+
+      <transition event="ccxml:connection.disconnected" target="Done"/>
+  
+      <transition event="send.failed" target="Done">
+        <log expr="'Sending to and External component failed'"/>
+      </transition>
+
+      <onexit>
+        <log expr="'Finished with external component'"/>
+      </onexit>
+    </state>
+
+    <final id="Done"/>
+  </state>
+</scxml>
