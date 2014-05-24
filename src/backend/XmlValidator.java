@@ -36,17 +36,19 @@ public class XmlValidator {
 
         return validateAgainstXsd(xml, sources);
     }
-    
-    public boolean validateAgainstXsd(File xmlFile, File xsdFile) throws FileNotFoundException {
-        InputStream xml = new FileInputStream(xmlFile);
-        InputStream xsd = new FileInputStream(xsdFile);
-        
-        return validateAgainstXsd(xml, xsd);
-    }
 
     public boolean validateAgainstXsd(InputStream xmlStream, InputStream xsdStream) {
         Source[] sources = new Source[1];
         sources[0] = new StreamSource(xsdStream);
+        
+        return validateAgainstXsd(xmlStream, sources);
+    }
+    
+    public boolean validateAgainstXsd(InputStream xmlStream, InputStream[] xsdStreams) {
+        Source[] sources = new Source[xsdStreams.length];
+        for(int i=0;i<xsdStreams.length;i++) {
+            sources[i] = new StreamSource(xsdStreams[i]);
+        }
         
         return validateAgainstXsd(xmlStream, sources);
     }
@@ -59,9 +61,13 @@ public class XmlValidator {
         try {
             schema = sFactory.newSchema(sources);
         } catch (SAXException se) {
-            System.err.println("Schema not loaded.");
-            System.err.println(se.getMessage());
-            System.exit(1);
+            throw new IllegalArgumentException("Schema error", se);
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Null in sources", e);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("One of sources not recognized",e);
+        } catch (UnsupportedOperationException e) {
+            throw new IllegalArgumentException("Invalid schema language", e);
         }
 
         // validate xml file using validator from created schema
@@ -73,6 +79,8 @@ public class XmlValidator {
             System.err.println(se.getMessage());
             return false;
         } catch (IOException ioe) {
+            return false;
+        } catch (IllegalArgumentException e) {
             return false;
         }
     }
