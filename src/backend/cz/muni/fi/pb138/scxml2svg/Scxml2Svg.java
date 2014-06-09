@@ -38,7 +38,12 @@ public class Scxml2Svg {
      * @param args command line parameters recieved at startup.
      */
     public void process(String[] args) {
-        validateArgs(args);
+        if(args.length != 2 || args.length != 3) {
+            System.err.println(strings.getString("notEnoughArgs"));
+            System.err.println(strings.getString("howToUse"));
+            System.exit(1);
+        }
+        
 
         String srcFileName = args[0];
         String dstFileName = args[1];
@@ -52,6 +57,10 @@ public class Scxml2Svg {
         } catch (FileNotFoundException ex) {
             System.err.println(strings.getString("cantOpenSrc"));
             System.exit(1);
+        } catch (Exception e) {
+            System.err.println(strings.getString("cantOpenSrc"));
+            System.err.println(e.getMessage());
+            System.exit(1);
         }
         OutputStream dotStream = null;
         try {
@@ -59,11 +68,27 @@ public class Scxml2Svg {
         } catch (FileNotFoundException ex) {
             System.err.println(strings.getString("cantOpenDot"));
             System.exit(1);
+        } catch (Exception e) {
+            System.err.println(strings.getString("cantOpenDot"));
+            System.err.println(e.getMessage());
+            System.exit(1);
         }
-
-        File xsdDir = new File("xsd");
-        //File templateFile = new File("template.xsl");
-        InputStream templateStream = this.getClass().getResourceAsStream("resources/scxml-to-dot.xsl");
+        InputStream templateStream = null;
+        if(args.length == 3) {
+            String transformFile = args[2];
+            try {
+                templateStream = new FileInputStream(new File(transformFile));
+            }catch(FileNotFoundException e) {
+                System.err.println("Template file not found.");
+                System.exit(1);
+            }catch(Exception e) {
+                System.err.println("Cant open template");
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+        }else {
+            templateStream = this.getClass().getResourceAsStream("resources/simplyfied-scxml-to-dot.xsl");
+        }
 
         XmlTransformator trans = new XmlTransformator();
         XmlValidator valid = new XmlValidator();
@@ -107,19 +132,5 @@ public class Scxml2Svg {
             System.exit(1);
         }
 
-    }
-
-    private void validateArgs(String[] args) {
-        // exit the program if arguments are not valid
-        if (args == null) {
-            System.err.println(strings.getString("nullArgs"));
-            System.err.println(strings.getString("howToUse"));
-            System.exit(1);
-        }
-        if (args.length < 2) {
-            System.err.println(strings.getString("notEnoughArgs"));
-            System.err.println(strings.getString("howToUse"));
-            System.exit(1);
-        }
     }
 }
