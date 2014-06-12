@@ -9,6 +9,7 @@
 digraph finite_state_machine {
     size="8,5"
 	rank="TD"
+        <xsl:apply-templates select="s:datamodel"/>
 	<xsl:apply-templates select="s:state"/>
         <xsl:apply-templates select="s:parallel"/>
         <xsl:apply-templates select="s:final"/>
@@ -99,6 +100,14 @@ digraph finite_state_machine {
 		</xsl:choose>
     </xsl:template>
     
+    <xsl:template match="s:datamodel">  
+        
+        datamodel [label = "DataModel <xsl:apply-templates select="s:data"/>"] [shape="record"]   
+    </xsl:template>
+    
+    <xsl:template match="s:data">
+        | {<xsl:value-of select="@id"/> | <xsl:value-of select="@expr"/><xsl:value-of select="@src"/>}
+    </xsl:template>
    
 </xsl:stylesheet>
 
