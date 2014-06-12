@@ -14,7 +14,7 @@
         <para>Použité nástroje:
             <itemizedlist>
                 <listitem><para> NetBeans 8.0 - IDE </para></listitem>
-                <listitem><para> Subversion SVN - Verzovací systém </para></listitem>
+                <listitem><para> Git </para></listitem>
             </itemizedlist>
         </para>
     </section>
