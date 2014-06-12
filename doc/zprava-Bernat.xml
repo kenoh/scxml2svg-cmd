@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>Závěrečná správa</title>
+        <author>
+            <firstname>Pavel</firstname>
+            <surname>Bernát</surname>
+        </author>
+        <pubdate>12.06.2014</pubdate>
+    </articleinfo>
+    <section>
+        <title>Použité nástroje</title>
+        <para>Použité nástroje:
+            <itemizedlist>
+                <listitem><para> NetBeans 8.0 - IDE </para></listitem>
+                <listitem><para> Subversion SVN - Verzovací systém </para></listitem>
+            </itemizedlist>
+        </para>
+    </section>
+    <section>
+        <title>Moje role</title>
+        <para>
+            Mým úkolem na projektu bylo vytvořit XSL transformaci, jež by převedla SCXML formát, popisující konečný automat, na DOT formát, který by pak šlo převést na výstupní svg pomocí GraphViz.
+        </para>
+        <para>
+            Na začátku jsem vytvořil základní trasformaci, která neřeší zda se jedná o stav nebo podstav a převede SCXML na DOT formát, přičemž všechny stavy jsou na stejné úrovni. Při zpětném pohledu to nebyl moc dobrý nápad, naštěstí to ale Matúš Honěk po mě opravil a rozvedl. Na něj posléze navázal Jan Doubek. Asi největším jejich vylepšením byl nápad reprezentovat v DOT formátu podstavy jako podgrafy.  
+        </para>    
+        <para>
+            Tím víceméně moje práce na projektu zkončila, byť jsem se nadále účastnil navrhování dalších úprav.
+        </para>
+    </section>
+</article>
