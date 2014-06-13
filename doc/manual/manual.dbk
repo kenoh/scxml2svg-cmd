@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <book xml:id="simple_book" xmlns="http://docbook.org/ns/docbook" version="5.0">
-	<title>SCXML2SVG-CMD - User Manual</title>
-	<chapter xml:id="chapter_1">
-		<title>Chapter 1</title>
-		<para>Hello world!</para>
-		<para>I hope that your day is proceeding <emphasis>splendidly</emphasis>!</para>
-	</chapter>
-	<chapter xml:id="chapter_2">
-		<title>Chapter 2</title>
-		<para>Hello again, world!</para>
-	</chapter>
+    <title>SCXML2SVG-CMD - User Manual</title>
+    <chapter xml:id="1">
+        <title>NAME</title>
+        <para>scxml2svg</para>
+        <para>Command line application running in Java, that converts SCXML files describing finite state machine into visual representation in SVG.<para>
+    </chapter>
+    <chapter xml:id="2">
+        <title>SYNOPSIS</title>
+        <para>scxml2svg.jar input output [template]</para>
+    </chapter>
+    <chapter xml:id="3">
+        <title>DESCRIPTION</title>
+        <para>Application takes input file, transforms it into DOT format graph describing finite state machine. Then, the graph is transformed into SVG file using available GraphViz program.</para>
+        <para>In order to function correctly, the program needs GraphViz installed on the machine.</para>
+        <para>Program ensures validation and correct functionality only if default transformation is used. (optional template parameter is not set)</para>
+    </chapter>
+    <chapter xml:id="4">
+        <title>EXIT STATUS</title>
+        <para>0 - if application successfully transformed input to output</para>
+    </chapter>
+    <chapter xml:id="5">
+        <title>SEE ALSO</title>
+        <para>Full documentation available at http://code.google.com/p/scxml2svg-cmd/</para>
+        <para>GraphViz</para>
+    </chapter>
 </book>
