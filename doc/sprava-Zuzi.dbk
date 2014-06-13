@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<article xmlns="http://docbook.org/ns/docbook">
+    <articleinfo>
+        <title>Zaverecna sprava k projektu PB138:SCXML2SVG-CMD</title>
+        <author>
+            <firstname>Marek</firstname>
+            <lastname>Zuzi</lastname>
+        </author>
+        <pubdate>13 Jun 2014</pubdate>
+    </articleinfo>
+    <section>
+        <title>Uvod</title>
+        <para>Moja praca na projekte zacala tym, ze sme sa stretli, kazdy predstavil svoj nahlad na to, ako bude mozne riesit zadanie. Po diskusii sme si urcili priblizny postup, ku ktoremu sme si zacali rozdelovat ulohy. Ja som si vybral ulohu veduceho projektu a implementaciu funkcionality v Jave.</para>
+    </section>
+    <section>
+        <title>Vypracovanie projektu a moj prinos</title>
+        <para>V priebehu vypracovania som postupne vytvaral a upravoval funkcionalitu tried v Jave. Zaroven som sa snazil ako veduci projektu mat prehlad o celkovom postupe vsetkych casti projektu a snazil som sa spolocne s kolegami usmernovat postup a zadavat dalsie ulohy potrebne k uspesnemu vypracovaniu projektu. V ramci mojej prace som aj upravoval domovske stranky projektu a vytvaral niektore casti dokumentacie.
+    </section>
+    <section>
+        <title>Zaver</title>
+        <para>Myslim si, ze projekt sa nam podarilo doviest do stavu, kedy sa da konstruktivne pouzit, i ked so zavislostou na inom programe (GraphViz). Nasa transformacia kvalitne zobrazuje zadane vstupy a prezentuje velke mnozstvo uzitocnej informacie.</para>
+    </section>
+</article>
