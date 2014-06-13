@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>Záverečná správa</title>
+        <author>
+            <firstname>Matúš</firstname>
+            <surname>Honěk</surname>
+        </author>
+        <pubdate>13.06.2014</pubdate>
+    </articleinfo>
+    <section>
+        <title>Použité nástroje</title>
+        <para>
+            <itemizedlist>
+				<listitem>VIM - pre editáciu</listitem>
+				<listitem>GraphViz - pre konverziu DOT-&gt;SVG</listitem>
+				<listitem>xsltproc - pre konverziu SCXML-&gt;DOT</listitem>
+				<listitem>xmllint - pre validáciu SCXML</listitem>
+            </itemizedlist>
+        </para>
+    </section>
+    <section>
+        <title>Zhrnutie</title>
+        <para>
+			Na začiatku projektu som uviedol myšlienku postupnej transformácie SCXML --(XSLT)--&gt; GraphML --(XQuery)--&gt; DOT format --(GraphViz)--&gt; SVG. Následne sme ale spoločne usúdili, že medzikrok GraphML  vypustíme, nakoľko nepridával na jednoduchosti a zároveň zo zadania nijak nevyplýval.
+        </para>
+        <para>
+			Konečná transformácia teda pozostáva z krokov SCXML --(XSLT)--&gt; DOT format --(GraphViz)--&gt; SVG. Samotnú obsluhu transformácií obstaráva CLI aplikácia napísaná v jazyku Java.
+        </para>    
+        <para>
+			Po Pavlovi Barnátovi som upravil ním napísanú transformáciu. Vytvoril som dve verzie transformácií - lineárnu a stromovú. Lineárna neuvažuje hierarchiu stavov a všetky zobrazuje na jednej úrovni. Stromová uvažuje hierarchiu stavov a využíva klastre (tzv. "subgraph cluster_") formátu DOT - tie umožňujú štýlovať podgrafy. Tu som sa ale stretol s problémom (ktorý, ako som si všimol, postretol taktiež iné projekty využívajúce GraphViz), že GraphViz nie je v niektorých prípadoch schopný vytvoriť prechod medzi stavom v klastri a stavom hierarchicky nad ním, resp. stavom v klastri hiererchicky umniestneným mimo cestu k prvému stavu.
+		</para>
+		<para>
+			Následne XSLT transformáciu prevzal Jan Doubek a hierarchiu teraz znázorňuje farbami prechodov. Podgrafy používa len pre lokalizáciu stavov so spoločným nadstavom do jedného miesta.
+		</para>
+    </section>
+</article>
