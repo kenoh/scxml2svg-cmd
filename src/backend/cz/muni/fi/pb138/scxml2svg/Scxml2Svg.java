@@ -28,6 +28,9 @@ public class Scxml2Svg {
     }
 
     private ResourceBundle strings = ResourceBundle.getBundle("cz/muni/fi/pb138/scxml2svg/Strings");
+    private static final String SCHEMA = "scxml.xsd";
+    private static final String TEMPLATE = "xsl/simplified-scxml-to-dot.xsl";
+    private static final String DOT = "graph.dot";
 
     /**
      * Wraps all the functionality and handles errors. First, validates command
@@ -38,99 +41,85 @@ public class Scxml2Svg {
      * @param args command line parameters recieved at startup.
      */
     public void process(String[] args) {
-        if(args.length != 2 || args.length != 3) {
+        if (args.length != 2 && args.length != 3) {
             System.err.println(strings.getString("notEnoughArgs"));
             System.err.println(strings.getString("howToUse"));
             System.exit(1);
         }
-        
 
         String srcFileName = args[0];
         String dstFileName = args[1];
+        String templFileName;
+        if (args.length == 3) {
+            templFileName = args[2];
+        } else {
+            templFileName = TEMPLATE;
+        }
+        String dotFileName = DOT;
+        String schemaFileName = SCHEMA;
 
         File srcFile = new File(srcFileName);
         File dstFile = new File(dstFileName);
-        File dotFile = new File("graph.dot");
-        InputStream srcStream = null;
-        try {
-            srcStream = new FileInputStream(srcFile);
-        } catch (FileNotFoundException ex) {
-            System.err.println(strings.getString("cantOpenSrc"));
-            System.exit(1);
-        } catch (Exception e) {
-            System.err.println(strings.getString("cantOpenSrc"));
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-        OutputStream dotStream = null;
-        try {
-            dotStream = new FileOutputStream(dotFile);
-        } catch (FileNotFoundException ex) {
-            System.err.println(strings.getString("cantOpenDot"));
-            System.exit(1);
-        } catch (Exception e) {
-            System.err.println(strings.getString("cantOpenDot"));
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-        InputStream templateStream = null;
-        if(args.length == 3) {
-            String transformFile = args[2];
-            try {
-                templateStream = new FileInputStream(new File(transformFile));
-            }catch(FileNotFoundException e) {
-                System.err.println("Template file not found.");
-                System.exit(1);
-            }catch(Exception e) {
-                System.err.println("Cant open template");
-                System.err.println(e.getMessage());
-                System.exit(1);
-            }
-        }else {
-            templateStream = this.getClass().getResourceAsStream("resources/simplyfied-scxml-to-dot.xsl");
-        }
+        File templFile = new File(templFileName);
+        File dotFile = new File(dotFileName);
+        File schemaFile = new File(schemaFileName);
 
         XmlTransformator trans = new XmlTransformator();
         XmlValidator valid = new XmlValidator();
         GraphVizConverter converter = new GraphVizConverter();
 
         // validate source file
-        //boolean isValid = false;
-        //try {
-        //    isValid = valid.validateAgainstXsdDir(srcFile, xsdDir);
-        //} catch (FileNotFoundException e) {
-        //    System.err.println("File not found.");
-        //    System.exit(1);
-        //}
-        //if (!isValid) {
-        //    System.err.println(strings.getString("inputNotValid"));
-        //    System.exit(1);
-        //} else {
-        //    System.out.println("Source file " + srcFileName + " is valid.");
-        //}
-        // transform to DOT
+        boolean isValid = false;
         try {
-            trans.transform(srcStream, templateStream, dotStream);
-        } catch (TransformerConfigurationException e) {
-            System.err.println("Problem with template file.");
+            isValid = valid.validateAgainstXsd(new FileInputStream(srcFile), new FileInputStream(schemaFile));
+        } catch (FileNotFoundException e) {
+            System.err.println(strings.getString("fileNotFound"));
+            System.err.println(e.getMessage());
+            System.exit(2);
+        } catch (IllegalArgumentException e) {
+            System.err.println(strings.getString("badSchema"));
+            System.err.println(e.getMessage());
+            System.exit(2);
+        } catch (Exception e) {
+            System.err.println(strings.getString("validFailed"));
+            System.exit(2);
+        }
+        if (!isValid) {
+            System.err.println(strings.getString("inputNotValid"));
             System.exit(1);
-        } catch (TransformerException e) {
-            System.err.println("Transformation failed.");
-            System.exit(1);
+        } else {
+            System.out.println(strings.getString("inputValid"));
         }
 
-        System.out.println("Transformation to DOT complete.");
+        // transform to DOT
+        try {
+            trans.transform(srcFile, templFile, dotFile);
+        } catch (TransformerConfigurationException e) {
+            System.err.println(strings.getString("badTemplate"));
+            System.err.println(e.getMessage());
+            System.exit(3);
+        } catch (TransformerException e) {
+            System.err.println(strings.getString("transformFailed"));
+            System.err.println(e.getMessage());
+            System.exit(3);
+        } catch (IllegalArgumentException e) {
+            System.err.println(strings.getString("fileNotFound"));
+            System.err.println(e.getMessage());
+            System.exit(3);
+        }
+        System.out.println(strings.getString("transformComplete"));
 
         // convert DOT to SVG
         int code = converter.convertDotToSvg(dotFile, dstFile);
         if (code == 1) {
             System.err.println(strings.getString("cantCreateImage"));
-            System.exit(1);
+            System.exit(4);
         }
         if (code == 2) {
             System.err.println(strings.getString("cantSaveImage"));
-            System.exit(1);
+            System.exit(4);
         }
 
     }
+
 }

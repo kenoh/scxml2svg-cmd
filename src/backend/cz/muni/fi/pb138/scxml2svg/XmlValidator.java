@@ -21,34 +21,6 @@ import org.xml.sax.SAXException;
  * @author Marek Zuzi
  */
 public class XmlValidator {
-
-    /**
-     * Validates given file against all schemas in given directory. Directory
-     * must contain only xml schema files.
-     *
-     * @param xmlFile file to be validated.
-     * @param xsdDir directory containing all schema files to validate against.
-     * Must contain only xml schema files.
-     * @return true if given file is valid, false otherwise.
-     * @throws FileNotFoundException if one of files is not found.
-     * @throws IllegalArgumentException if there is a problem with loading
-     * schemas.
-     */
-    public boolean validateAgainstXsdDir(File xmlFile, File xsdDir) throws FileNotFoundException {
-        InputStream xml = new FileInputStream(xmlFile);
-
-        File[] files = xsdDir.listFiles();
-        Source[] sources = new Source[files.length];
-
-        // load all xsd files in the dir
-        for (int i = 0; i < files.length; i++) {
-            File f = files[i];
-            sources[i] = new StreamSource(f);
-        }
-
-        return validateAgainstXsd(xml, sources);
-    }
-
     /**
      * Validates xml file stored in given InputStream against given xml schema.
      *
