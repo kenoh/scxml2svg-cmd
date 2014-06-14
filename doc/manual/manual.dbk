@@ -19,6 +19,11 @@
     <chapter xml:id="4">
         <title>EXIT STATUS</title>
         <para>0 - if application successfully transformed input to output</para>
+        <para>1 - if input file is not valid SCXML document.</para>
+        <para>2 - if program failed during validation.</para>
+        <para>3 - if program failed during XSLT transform.</para>
+        <para>4 - if program failed during final GraphViz 
+utilization.</para>
     </chapter>
     <chapter xml:id="5">
         <title>SEE ALSO</title>
