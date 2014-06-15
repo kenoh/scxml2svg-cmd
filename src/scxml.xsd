@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.w3.org/2005/07/scxml"
+    xmlns="http://www.w3.org/2005/07/scxml"
+    elementFormDefault="qualified">
+
+    <xsd:element name="scxml">
+        <xsd:complexType>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                <xsd:element name="state" type="stateType"/>
+                <xsd:element name="parallel" type="parallelType"/> 
+                <xsd:element name="final" type="finalType"/> 
+                <xsd:element name="datamodel"/> 
+                <xsd:element name="script"/>
+            </xsd:choice>
+            <xsd:anyAttribute processContents="skip"/>
+        </xsd:complexType>
+    </xsd:element>
+    
+    
+    <xsd:complexType name="stateType">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="onentry"/>
+            <xsd:element name="onexit"/>
+            <xsd:element name="transition" type="transitionType"/>
+            <xsd:element name="initial" type="initialType"/>
+            <xsd:element name="state" type="stateType"/>
+            <xsd:element name="parallel" type="parallelType"/>
+            <xsd:element name="final" type="finalType"/>
+            <xsd:element name="history"/>
+            <xsd:element name="datamodel"/>
+            <xsd:element name="invoke"/>
+        </xsd:choice>
+        <xsd:anyAttribute processContents="skip"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="parallelType">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="onentry"/>
+            <xsd:element name="onexit"/>
+            <xsd:element name="transition" type="transitionType"/>
+            <xsd:element name="state" type="stateType"/>
+            <xsd:element name="parallel" type="parallelType"/>
+            <xsd:element name="history"/>
+            <xsd:element name="datamodel"/>
+            <xsd:element name="invoke"/>
+        </xsd:choice>
+        <xsd:anyAttribute processContents="skip"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="finalType">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="onentry"/>
+            <xsd:element name="onexit"/>
+            <xsd:element name="donedata"/>
+        </xsd:choice>
+        <xsd:anyAttribute processContents="skip"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="transitionType">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:any minOccurs="0" processContents="skip"/>
+        </xsd:choice>
+       <!-- <xsd:attribute name="target" type="xsd:string"/> -->
+        <xsd:anyAttribute processContents="skip"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="initialType">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="transition"/>
+        </xsd:choice>
+        <xsd:anyAttribute processContents="skip"/>
+    </xsd:complexType>
+    
+    
+    
+    
+</xsd:schema>

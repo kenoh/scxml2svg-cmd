@@ -32,15 +32,19 @@ digraph finite_state_machine {
 		subgraph "sub_<xsl:value-of select="./@id"/>" {
                         "<xsl:value-of select="./@id"/>";
                         <xsl:text>&#xa;</xsl:text>
-                        <xsl:call-template name="substate" />           
+                        {rank = same;
+                        <xsl:for-each select="s:state | s:parallel | s:initial | s:final" >
+                            <xsl:value-of select="@id"/><xsl:text> </xsl:text>
+                        </xsl:for-each>
+                        }
+                        <xsl:call-template name="substate" />
+                            
 		}
 	</xsl:template>
         
         
         
         <xsl:template name="substate" >
-
-                 <!--   herer <xsl:value-of select="../s:initial/s:transition/@target"/> herrer -->
                     
                 <xsl:if test="name(..) = 'state' and ../s:initial/s:transition/@target != @id"> 
                     <xsl:value-of select="../@id"/><xsl:text> -> </xsl:text><xsl:value-of select="@id"/> [style = "dotted"]
@@ -58,23 +62,20 @@ digraph finite_state_machine {
                <xsl:apply-templates select="s:state"/>
                <xsl:apply-templates select="s:parallel"/>
                <xsl:apply-templates select="s:final"/>
+               <xsl:apply-templates select="s:datamodel"/>
         </xsl:template>
         
         
         
 	<xsl:template match="s:initial">
-		"<xsl:value-of select="../@id"/>";
-                <!-- {rank=same; <xsl:value-of select="../@id"/><xsl:text> </xsl:text><xsl:value-of select="s:transition/@target"/>} -->
-                
+		"<xsl:value-of select="../@id"/>";           
 	</xsl:template>
 
 
 
 	<xsl:template match="s:final">
-		"<xsl:value-of select="./@id"/>" [shape = "doublecircle"] 
-                
+		"<xsl:value-of select="./@id"/>" [shape = "doublecircle"]             
                 <xsl:call-template name="substate" />  
-                <!-- <xsl:apply-template name="substate" />  -->
         </xsl:template>
 
 
@@ -95,19 +96,18 @@ digraph finite_state_machine {
 			<xsl:otherwise>
 				<xsl:if test="./@target != ''">
 					"<xsl:value-of select="../@id"/>"<xsl:text> -> </xsl:text>"<xsl:value-of select="./@target"/>" [ label = "<xsl:value-of select="./@event"/> <xsl:value-of select="./@cond"/>" ];
-				</xsl:if>
+                                </xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
     </xsl:template>
     
-    <xsl:template match="s:datamodel">  
-        
-        datamodel [label = "DataModel <xsl:apply-templates select="s:data"/>"] [shape="record"]   
+    <xsl:template match="s:datamodel">    
+        datamodel [label = "DataModel <xsl:apply-templates select="s:data"/>"] [shape="record"];
     </xsl:template>
     
     <xsl:template match="s:data">
         | {<xsl:value-of select="@id"/> | <xsl:value-of select="@expr"/><xsl:value-of select="@src"/>}
     </xsl:template>
-   
+    
 </xsl:stylesheet>
 

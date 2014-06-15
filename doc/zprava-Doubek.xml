@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>Závěrečná zpráva</title>
+        <author>
+            <firstname>Jan</firstname>
+            <surname>Doubek</surname>
+        </author>
+        <pubdate>15.06.2014</pubdate>
+    </articleinfo>
+    <section>
+        <title>Použité nástroje</title>
+        <para>
+            <itemizedlist>
+                <listitem>Git</listitem>
+				<listitem>GraphViz</listitem>
+				<listitem>xmllint</listitem>
+            </itemizedlist>
+        </para>
+    </section>
+    <section>
+        <title>zhrnutí</title>
+        <para>
+			Na začátku projektu mi byla přidelena role správy validačních schémat. Nejprve jsem tedy stáhnul xsd schémata z webu w3c. Následně se ale ukázalo že většina testovacích příkladů neodpovídá aktuální verzi SCXML. Jelikož ještě nebyla zveřejněna finální verze formátu, vytvořil jsem schéma které kontroluje pouze základní strukturu dokumentu, která by měla být dostatečná pro úspěšné provedení transformace.
+        </para>
+        <para>
+            Poté jsem upravil XSLT transformaci tak aby podstavy byly správně hierarchicky zobrazeny, ale protože transformace příliš nabrala na složitosti a protože grafický výstup se příliš odchýlil od plánovaného stavu, vytvořil jsem zjednodušenou transformaci. V této transformaci je hierarchická struktura reprezentována pomocí tečkovaných šipek a šipek jiných barev.
+        </para>    
+        <para>
+            Dále jsem přidal vykreslování datamodelu a začal pracovat na zobrazování operací nad daty.
+            Od tohoto jsem nakonec upustil z důvodu přílišného zanášení grafu nedůležitými informacemi. Tyto operace navíc nepatří ke standardním možnostem konečných automatů a nejsou tedy součástí zadání.
+		</para>
+    </section>
+</article>
