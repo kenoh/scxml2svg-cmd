@@ -14,6 +14,8 @@
         <title>DESCRIPTION</title>
         <para>Application takes input file, transforms it into DOT format graph describing finite state machine. Then, the graph is transformed into SVG file using available GraphViz program.</para>
         <para>In order to function correctly, the program needs GraphViz installed on the machine.</para>
+	<para>Also, in order to validate file, program needs to have all schema files in the same directory as .jar file</para>
+	<para>The default transformation template must be present in xsl directory</para>
         <para>Program ensures validation and correct functionality only if default transformation is used. (optional template parameter is not set)</para>
     </chapter>
     <chapter xml:id="4">
